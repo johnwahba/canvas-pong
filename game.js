@@ -3,7 +3,9 @@
   $(document).ready(function() {
     var ComputerPaddle, HumanPaddle, Pong, canvas, computerPaddle, ctx, drawGame, humanPaddle, mouseY, pong;
     HumanPaddle = (function() {
-      function HumanPaddle() {}
+      function HumanPaddle() {
+        this.score = 0;
+      }
 
       HumanPaddle.prototype.updatePosition = function() {
         return this.currentPosition = [0, mouseY];
@@ -16,6 +18,7 @@
       function ComputerPaddle(pong, speed) {
         this.pong = pong;
         this.speed = speed;
+        this.score = 0;
         this.currentPosition = [950, 320];
       }
 
@@ -60,7 +63,8 @@
           } else {
             this.currentPosition = [480, 320];
             this.direction = Math.random() * 2 * Math.PI;
-            return this.speed = 5;
+            this.speed = 5;
+            return this.rightPaddle.score += 1;
           }
         } else if (this.currentPosition[0] > 940) {
           if (this.rightPaddle.currentPosition[1] + 64 > this.currentPosition[1] && this.rightPaddle.currentPosition[1] - 64 < this.currentPosition[1]) {
@@ -69,7 +73,8 @@
           } else {
             this.currentPosition = [480, 320];
             this.direction = Math.random() * 2 * Math.PI;
-            return this.speed = 5;
+            this.speed = 5;
+            return this.leftPaddle.score += 1;
           }
         }
       };
@@ -96,8 +101,8 @@
       ctx.fillStyle = "white";
       ctx.fillRect(475, 0, 10, 640);
       ctx.font = "bold 60px Arial";
-      ctx.fillText(0, 240, 60);
-      ctx.fillText(0, 720, 60);
+      ctx.fillText(humanPaddle.score, 240, 60);
+      ctx.fillText(computerPaddle.score, 720, 60);
       ctx.fillRect(0, humanPaddle.currentPosition[1] - 64, 20, 128);
       ctx.fillRect(940, computerPaddle.currentPosition[1] - 64, 20, 128);
       ctx.fillStyle = "green";

@@ -1,11 +1,15 @@
 $(document).ready ()->
 
   class HumanPaddle
+    constructor:()->
+      @score = 0
+
     updatePosition: ()->
       @currentPosition = [0, mouseY]
 
   class ComputerPaddle
     constructor:(@pong, @speed)->
+      @score = 0
       @currentPosition = [950, 320]
 
     updatePosition:()->
@@ -43,6 +47,7 @@ $(document).ready ()->
           @currentPosition = [480,320]
           @direction = Math.random() * 2 * Math.PI
           @speed = 5
+          @rightPaddle.score += 1
       else if @currentPosition[0] > 940
         if @rightPaddle.currentPosition[1] + 64 > @currentPosition[1] && @rightPaddle.currentPosition[1] - 64 < @currentPosition[1] 
           @direction = 2 * Math.PI - @direction
@@ -51,6 +56,8 @@ $(document).ready ()->
           @currentPosition = [480,320]
           @direction = Math.random() * 2 * Math.PI
           @speed = 5
+          @leftPaddle.score += 1
+
 
   canvas = $('#game')[0]
   ctx = canvas.getContext('2d')
@@ -75,8 +82,8 @@ $(document).ready ()->
     ctx.fillRect(475,0, 10, 640)
     #scores
     ctx.font = "bold 60px Arial";
-    ctx.fillText 0, 240, 60
-    ctx.fillText 0, 720, 60
+    ctx.fillText humanPaddle.score, 240, 60
+    ctx.fillText computerPaddle.score, 720, 60
 
     #paddles
     ctx.fillRect 0, humanPaddle.currentPosition[1] - 64, 20, 128 
